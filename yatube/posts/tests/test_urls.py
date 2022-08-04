@@ -73,12 +73,13 @@ class PostsURLTests(TestCase):
                     response, redirect)
 
     def test_urls_uses_correct_template(self):
+        create = 'posts/create.html'
         templates_url_names = {
             'posts/index.html': '/',
             'posts/group_list.html': '/group/test-slug/',
             'posts/profile.html': '/profile/auth/',
             'posts/post_detail.html': '/posts/10/',
-            'posts/create.html': '/posts/10/edit/',
+            create: '/posts/10/edit/',
             'posts/create.html': '/create/',
         }
         for template, address in templates_url_names.items():

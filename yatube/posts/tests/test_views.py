@@ -33,7 +33,7 @@ class ViewsURLTests(TestCase):
         self.guest_client = Client()
 
     def test_pages_uses_correct_template(self):
-        """URL-адрес использует соответствующий шаблон."""
+        create = 'posts/create.html'
         templates_pages_names = {
             'posts/index.html': reverse('posts:index'),
             'posts/group_list.html': reverse('posts:group_list',
@@ -42,7 +42,7 @@ class ViewsURLTests(TestCase):
                 reverse('posts:profile', kwargs={'username': 'auth'}),
             'posts/post_detail.html': reverse('posts:post_detail',
                                               kwargs={'post_id': 10}),
-            'posts/create.html': reverse('posts:post_create'),
+            create: reverse('posts:post_create'),
             'posts/create.html': reverse('posts:post_edit',
                                          kwargs={'post_id': 10}),
         }
