@@ -59,6 +59,7 @@ def post_detail(request, post_id):
     }
     return render(request, 'posts/post_detail.html', context)
 
+
 @login_required
 def post_create(request):
     form = PostForm(request.POST or None)

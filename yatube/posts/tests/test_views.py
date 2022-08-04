@@ -105,8 +105,8 @@ class PostPagesTests(TestCase):
         self.authorized_client.force_login(self.user)
 
     def test_post_detail_pages_show_correct_context(self):
-        response = (self.authorized_client.get(reverse('posts:post_detail',
-                                                       kwargs={'post_id': 10})))
+        for_resp = reverse('posts:post_detail', kwargs={'post_id': 10})
+        response = (self.authorized_client.get(for_resp))
         self.assertEqual(response.context.get('post').text, 'Текст')
         self.assertEqual(response.context.get('post').author,
                          PostPagesTests.user_auth)
