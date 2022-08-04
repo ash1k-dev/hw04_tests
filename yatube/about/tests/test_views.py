@@ -14,8 +14,10 @@ class StaticViewsTests(TestCase):
                 self.assertEqual(response.status_code, 200)
 
     def test_about_page_uses_correct_template(self):
-        response_for_static = {reverse('about:author'): 'posts/about/author.html',
-                               reverse('about:tech'): 'posts/about/tech.html'
+        author_html = 'posts/about/author.html'
+        tech_html = 'posts/about/tech.html'
+        response_for_static = {reverse('about:author'): author_html,
+                               reverse('about:tech'): tech_html
                                }
         for response_status, expected in response_for_static.items():
             with self.subTest(response_status=response_status):
