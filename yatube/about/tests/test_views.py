@@ -16,7 +16,8 @@ class StaticViewsTests(TestCase):
     def test_about_page_uses_correct_template(self):
         author_html = 'posts/about/author.html'
         tech_html = 'posts/about/tech.html'
-        response_for_static = {reverse('about:author'): author_html,
+        response_for_static = {
+                               reverse('about:author'): author_html,
                                reverse('about:tech'): tech_html
                                }
         for response_status, expected in response_for_static.items():
