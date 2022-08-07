@@ -20,15 +20,15 @@ class PostCreateFormTests(TestCase):
             title='Тестовое название группы',
             slug='test-slug',
         )
+        cls.post = Post.objects.create(
+            text='Тест текст',
+            author=cls.user,
+        )
         cls.form = PostForm()
 
     def setUp(self):
         self.authorized_client = Client()
         self.authorized_client.force_login(self.user)
-        self.post = Post.objects.create(
-            text='Тест текст',
-            author=self.user,
-        )
 
     def test_create_post(self):
         post_count = Post.objects.count()

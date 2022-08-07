@@ -1,3 +1,5 @@
+from http import HTTPStatus
+
 from django.test import Client, TestCase
 from django.urls import reverse
 
@@ -11,7 +13,7 @@ class StaticViewsTests(TestCase):
         for response_status in status_for_static:
             with self.subTest(response_status=response_status):
                 response = self.guest_client.get(reverse('about:author'))
-                self.assertEqual(response.status_code, 200)
+                self.assertEqual(response.status_code, HTTPStatus.OK)
 
     def test_about_page_uses_correct_template(self):
         author_html = 'posts/about/author.html'
