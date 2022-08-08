@@ -9,12 +9,6 @@ from ..models import Post, Group
 User = get_user_model()
 
 
-def for_context(self, post):
-    self.assertEqual(post.text, self.post.text)
-    self.assertEqual(post.author, self.user_auth)
-    self.assertEqual(post.group, self.group)
-
-
 class ViewsTests(TestCase):
     @classmethod
     def setUpClass(cls):
@@ -57,19 +51,24 @@ class ViewsTests(TestCase):
                 response = self.authorized_client.get(reverse_name)
                 self.assertTemplateUsed(response, template)
 
+    def for_context(self, post):
+        self.assertEqual(post.text, self.post.text)
+        self.assertEqual(post.author, self.user_auth)
+        self.assertEqual(post.group, self.group)
+
     def test_post_detail_pages_show_correct_context(self):
         reverse_name = reverse(
             'posts:post_detail',
             kwargs={'post_id': self.post.id})
         response = self.authorized_client.get(reverse_name)
         post = response.context.get('post')
-        for_context(self, post)
+        self.for_context(post)
 
     def test_post_index_correct_context(self):
         reverse_name = reverse('posts:index')
         response = self.authorized_client.get(reverse_name)
         post = response.context['page_obj'][0]
-        for_context(self, post)
+        self.for_context(post)
 
     def test_post_group_list_correct_context(self):
         reverse_name = reverse(
@@ -77,7 +76,7 @@ class ViewsTests(TestCase):
         )
         response = self.authorized_client.get(reverse_name)
         post = response.context['page_obj'][0]
-        for_context(self, post)
+        self.for_context(post)
 
     def test_post_profile_correct_context(self):
         reverse_name = reverse(
@@ -86,7 +85,7 @@ class ViewsTests(TestCase):
         )
         response = self.authorized_client.get(reverse_name)
         post = response.context['page_obj'][0]
-        for_context(self, post)
+        self.for_context(post)
 
     def test_post_create_and_edit(self):
         self.post_create_url = ('posts:post_create', None, PostForm)

@@ -17,7 +17,6 @@ class PostsURLTests(TestCase):
         cls.post = Post.objects.create(
             text='Тестовый текст',
             author=cls.user_auth,
-            id=10
         )
         cls.group = Group.objects.create(
             title='Тестовое название группы',
@@ -34,11 +33,11 @@ class PostsURLTests(TestCase):
     def test_urls_for_auth_users(self):
         urls_for_auth_users = {
             '/': HTTPStatus.OK,
-            '/group/test-slug/': HTTPStatus.OK,
+            f'/group/{self.group.slug}/': HTTPStatus.OK,
             '/profile/auth/': HTTPStatus.OK,
-            '/posts/10/': HTTPStatus.OK,
+            f'/posts/{self.post.pk}/': HTTPStatus.OK,
             '/unexisting_page/': HTTPStatus.NOT_FOUND,
-            '/posts/10/edit/': HTTPStatus.OK,
+            f'/posts/{self.post.pk}/edit/': HTTPStatus.OK,
             '/create/': HTTPStatus.OK,
         }
         for address, code in urls_for_auth_users.items():
@@ -49,7 +48,7 @@ class PostsURLTests(TestCase):
     def test_task_detail_url_redirect_guest_client(self):
         urls_for_guest_client_users = {
             '/create/': '/auth/login/?next=/create/',
-            '/posts/10/edit/': '/posts/10/',
+            f'/posts/{self.post.pk}/edit/': f'/posts/{self.post.pk}/',
         }
         for address, redirect in urls_for_guest_client_users.items():
             with self.subTest(address=address):
@@ -61,10 +60,10 @@ class PostsURLTests(TestCase):
         create = 'posts/create.html'
         templates_url_names = {
             'posts/index.html': '/',
-            'posts/group_list.html': '/group/test-slug/',
-            'posts/profile.html': '/profile/auth/',
-            'posts/post_detail.html': '/posts/10/',
-            create: '/posts/10/edit/',
+            'posts/group_list.html': f'/group/{self.group.slug}/',
+            'posts/profile.html': f'/profile/{self.user_auth}/',
+            'posts/post_detail.html': f'/posts/{self.post.pk}/',
+            create: f'/posts/{self.post.pk}/edit/',
             'posts/create.html': '/create/',
         }
         for template, address in templates_url_names.items():
